@@ -47,29 +47,53 @@ MainView {
             id: header
             title: i18n.tr('Year Progress')
         }
+        Flickable{  
+            anchors{
+                top: parent.header.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            interactive: root.height > root.width ? false : true
+            contentWidth: parent.width
+            contentHeight: main_column.height
+            ColumnLayout{ 
+                id: main_column
+                width: parent.width
+                Icon{id:calendar_icon;Layout.alignment: Qt.AlignCenter;name:"calendar";height: units.gu(3.5)}
+                RowLayout{
+                    Layout.alignment: Qt.AlignCenter
+                    Label{text: i18n.tr("Today is:");font.pixelSize: units.gu(2.5)}
+                    Label {text: root.stringDate;font.pixelSize: units.gu(2.5)}
+                }
 
-        Label {
-            anchors.top: header.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: root.stringDate
-            verticalAlignment: Label.AlignVCenter
-            horizontalAlignment: Label.AlignHCenter
-        }
+                BlankSpace{}
 
-        Label {
-            anchors.bottom: bar_progress.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: root.complete_percentage + "%" + '\n'
-            verticalAlignment: Label.AlignVCenter
-            horizontalAlignment: Label.AlignHCenter
-            font.pixelSize: units.gu(2.5)
-            font.bold: true
-        }
+                RowLayout{
+                    Layout.alignment: Qt.AlignCenter
+                    Label{text: i18n.tr("Days passed:");font.pixelSize: units.gu(2.5)}
+                    Label {text: root.dif_days;font.pixelSize: units.gu(2.5)}
+                }
 
-        BarYearProgress{
-            id: bar_progress
-            anchors.centerIn: parent
-            percentage: root.complete_percentage
+                BlankSpace{height: units.gu(12)}
+
+                Label {
+                    Layout.alignment: Qt.AlignCenter
+                    text: root.complete_percentage + "%" + '\n'
+                    verticalAlignment: Label.AlignVCenter
+                    horizontalAlignment: Label.AlignHCenter
+                    font.pixelSize: units.gu(2.5)
+                    font.bold: true
+                }
+
+                BarYearProgress{
+                    id: bar_progress
+                    Layout.alignment: Qt.AlignCenter
+                    Layout.preferredWidth: root.width - units.gu(24)
+                    Layout.preferredHeight: units.gu(3.5)
+                    percentage: root.complete_percentage
+                }
+            }    
         }
     }
     Component.onCompleted: console.log("ASDSASAD",root.complete_percentage)
