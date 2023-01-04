@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.7
-import Ubuntu.Components 1.3
-//import QtQuick.Controls 2.2
+import QtQuick 2.9
+import Lomiri.Components 1.3
+import QtQuick.Controls 2.2 as QQC2
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
 
@@ -28,73 +28,50 @@ MainView {
 
     property var locale: Qt.locale()
     property date currentDate: new Date()
+    property var weekNumber: currentDate.weekNumber
     property var stringDate: currentDate.toLocaleDateString(locale, 'yyyy-MM-dd')
     property var year : currentDate.toLocaleDateString(locale, 'yyyy')
     property var first_date_of_year : currentDate.toLocaleDateString(locale, year + '-01-01')
     property var today_date : new Date(stringDate)
     property var year_start : new Date(first_date_of_year)
     property var dif_time: Math.abs(today_date - year_start)
-    property var dif_days: Math.ceil(dif_time / (1000 * 60 * 60 * 24))
-    property var complete_percentage: Math.round((dif_days / 365 * 100) * 10) / 10
+    property var dif_days: Math.ceil(dif_time / (1000 * 60 * 60 * 24)) + 1
+    property var complete_percentage: Math.round(Math.round((dif_days / 365 * 100) * 10) / 10)
 
     width: units.gu(45)
     height: units.gu(75)
-
+    backgroundColor: "black"
+    
     Page {
+        id: parent_page
         anchors.fill: parent
+        header: PageHeader {visible: false}
 
-        header: PageHeader {
-            id: header
-            title: i18n.tr('Year Progress')
-        }
-        Flickable{  
-            anchors{
-                top: parent.header.bottom
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
+        QQC2.SwipeView{  
+            id: view
+            currentIndex: 0
+            anchors.top: root.top
+            anchors.bottom: root.bottom
+            width: parent.width
+            height: parent.height
+
+            Item{
+                //index 0
+                Percentage{anchors.centerIn:parent;}
             }
-            interactive: root.height > root.width ? false : true
-            contentWidth: parent.width
-            contentHeight: main_column.height
-            ColumnLayout{ 
-                id: main_column
-                width: parent.width
-                Icon{id:calendar_icon;Layout.alignment: Qt.AlignCenter;name:"calendar";height: units.gu(3.5)}
-                RowLayout{
-                    Layout.alignment: Qt.AlignCenter
-                    Label{text: i18n.tr("Today is:");font.pixelSize: units.gu(2.5)}
-                    Label {text: root.stringDate;font.pixelSize: units.gu(2.5)}
-                }
 
-                BlankSpace{}
+            Item{
+                //index 1
+                Days{anchors.centerIn:parent}
+            }
 
-                RowLayout{
-                    Layout.alignment: Qt.AlignCenter
-                    Label{text: i18n.tr("Days passed:");font.pixelSize: units.gu(2.5)}
-                    Label {text: root.dif_days;font.pixelSize: units.gu(2.5)}
-                }
-
-                BlankSpace{height: units.gu(12)}
-
-                Label {
-                    Layout.alignment: Qt.AlignCenter
-                    text: root.complete_percentage + "%" + '\n'
-                    verticalAlignment: Label.AlignVCenter
-                    horizontalAlignment: Label.AlignHCenter
-                    font.pixelSize: units.gu(2.5)
-                    font.bold: true
-                }
-
-                BarYearProgress{
-                    id: bar_progress
-                    Layout.alignment: Qt.AlignCenter
-                    Layout.preferredWidth: root.width - units.gu(24)
-                    Layout.preferredHeight: units.gu(3.5)
-                    percentage: root.complete_percentage
-                }
-            }    
+        }
+        QQC2.PageIndicator{
+            id: indicator
+            count: view.count
+            currentIndex: view.currentIndex
+            anchors.bottom: parent_page.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
-    Component.onCompleted: console.log("ASDSASAD",root.complete_percentage)
 }

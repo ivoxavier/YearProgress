@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yearprogress.ivoxavier\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-19 09:31+0000\n"
+"POT-Creation-Date: 2023-01-04 19:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../qml/Main.qml:48 yearprogress.desktop.in.h:1
+#: ../qml/Days.qml:27
+msgid "Current Date"
+msgstr ""
+
+#: ../qml/Days.qml:30
+msgid "Days Passed"
+msgstr ""
+
+#: yearprogress.desktop.in.h:1
 msgid "Year Progress"
-msgstr ""
-
-#: ../qml/Main.qml:66
-msgid "Today is:"
-msgstr ""
-
-#: ../qml/Main.qml:74
-msgid "Days passed:"
 msgstr ""
